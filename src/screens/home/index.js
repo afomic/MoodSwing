@@ -1,5 +1,4 @@
-'use strict';
-import React from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
@@ -55,56 +54,69 @@ let styles = StyleSheet.create({
 const SCREEN_WIDTH = Dimensions.get('window').width;
 let isbigStyle = true;
 
-class HomeScreen extends React.Component {
-    state = {
-        array: [
-            {emoji: ":rage:", title: "Anger"},
-            {emoji: ":nerd_face:", title: "Cool"},
-            {emoji: ":astonished:", title: "Suprised"},
-            {emoji: ":sob:", title: "Sad"},
-            {emoji: ":grimacing:", title: "Happy"},
-            {emoji: ":weary:", title: "Tired"},
-            {emoji: ":disappointed:", title: "down"},
-            {emoji: ":sob:", title: "Sad"},
-            {emoji: ":grimacing:", title: "Happy"},
-            {emoji: ":weary:", title: "Tired"},
-            {emoji: ":disappointed:", title: "down"},
-            {emoji: ":disappointed:", title: "down"},
-            {emoji: ":rage:", title: "Anger"},
-            {emoji: ":nerd_face:", title: "Cool"},
-            {emoji: ":astonished:", title: "Suprised"},
-            {emoji: ":sob:", title: "Sad"},
-            {emoji: ":grimacing:", title: "Happy"},
-            {emoji: ":weary:", title: "Tired"},
-            {emoji: ":disappointed:", title: "down"},
-            {emoji: ":sob:", title: "Sad"},
-            {emoji: ":grimacing:", title: "Happy"},
-            {emoji: ":weary:", title: "Tired"},
-            {emoji: ":disappointed:", title: "down"},
-            {emoji: ":grimacing:", title: "Happy"},
-            {emoji: ":weary:", title: "Tired"},
-            {emoji: ":disappointed:", title: "down"},
-            {emoji: ":disappointed:", title: "down"},
-            {emoji: ":rage:", title: "Anger"},
-        ]
+class HomeScreen extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            array: [
+                {emoji: ":rage:", title: "Anger"},
+                {emoji: ":nerd_face:", title: "Cool"},
+                {emoji: ":astonished:", title: "Suprised"},
+                {emoji: ":sob:", title: "Sad"},
+                {emoji: ":grimacing:", title: "Happy"},
+                {emoji: ":weary:", title: "Tired"},
+                {emoji: ":disappointed:", title: "down"},
+                {emoji: ":sob:", title: "Sad"},
+                {emoji: ":grimacing:", title: "Happy"},
+                {emoji: ":weary:", title: "Tired"},
+                {emoji: ":disappointed:", title: "down"},
+                {emoji: ":disappointed:", title: "down"},
+                {emoji: ":rage:", title: "Anger"},
+                {emoji: ":nerd_face:", title: "Cool"},
+                {emoji: ":astonished:", title: "Suprised"},
+                {emoji: ":sob:", title: "Sad"},
+                {emoji: ":grimacing:", title: "Happy"},
+                {emoji: ":weary:", title: "Tired"},
+                {emoji: ":disappointed:", title: "down"},
+                {emoji: ":sob:", title: "Sad"},
+                {emoji: ":grimacing:", title: "Happy"},
+                {emoji: ":weary:", title: "Tired"},
+                {emoji: ":disappointed:", title: "down"},
+                {emoji: ":grimacing:", title: "Happy"},
+                {emoji: ":weary:", title: "Tired"},
+                {emoji: ":disappointed:", title: "down"},
+                {emoji: ":disappointed:", title: "down"},
+                {emoji: ":rage:", title: "Anger"},
+            ]
+        }
+        this.fetchEmojis = this.fetchEmojis.bind(this);
+    }
+
+    componentDidMount() {
+        this.fetchEmojis()
+    }
+
+    fetchEmojis() {
+
     }
 
 
     getAutoResponsiveProps() {
         return {
             itemMargin: 8,
-            containerWidth: SCREEN_WIDTH-40,
+            containerWidth: SCREEN_WIDTH - 40,
         };
     }
 
     renderChildren() {
-        const moodStyles = [styles.big, styles.small, styles.medium];
-
+        const moodStyles = [styles.big, styles.medium, styles.small];
+        let count = 0;
         return this.state.array.map((item, key) => {
-                const randomIndex = Math.floor(Math.random() * 3);
+                const index = count % 3;
+                count++;
                 return <MoodItem
                     item={item}
-                    style={moodStyles[randomIndex]}
+                    style={moodStyles[index]}
                     key={key}/>
             }
         );
@@ -116,7 +128,7 @@ class HomeScreen extends React.Component {
             <View style={styles.container}>
                 <Toolbar
                     title={"How are you feeling?"}
-                    onBackPressed={() => {
+                    onBackPress={() => {
                     }}
                 />
                 <View style={{paddingLeft: 20, paddingRight: 20}}>

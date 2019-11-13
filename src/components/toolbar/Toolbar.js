@@ -1,5 +1,5 @@
 import React from "react"
-import {View, StyleSheet, Image, Text} from "react-native"
+import {View, StyleSheet, Image, Text,TouchableOpacity} from "react-native"
 import Constants from 'expo-constants';
 
 const backIcon = require("../../../assets/ic_back.png")
@@ -24,8 +24,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Toolbar = (props) => (
+export default Toolbar = ({title, onBackPress}) => (
     <View style={styles.container}>
-        <Image style={styles.backIcon} source={backIcon}/>
-        <Text style={styles.titleText}>{props.title}</Text>
+        <TouchableOpacity onPress={onBackPress}>
+            <Image style={styles.backIcon} source={backIcon}/>
+        </TouchableOpacity>
+        <Text style={styles.titleText}>{title}</Text>
     </View>)
