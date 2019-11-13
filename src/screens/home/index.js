@@ -3,11 +3,13 @@ import {
     StyleSheet,
     View,
     ScrollView,
-    Dimensions
+    Dimensions,
+    ActivityIndicator
 } from "react-native"
 import AutoResponsive from "autoresponsive-react-native"
 import Toolbar from "../../components/toolbar/Toolbar";
 import {MoodItem} from "../../components/moodItem";
+import {getEmojis} from "../../service/api";
 
 
 let styles = StyleSheet.create({
@@ -49,55 +51,56 @@ let styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,0.1)',
         borderRadius: 35,
     },
+    progressContainer: {
+        position: "absolute",
+        right: 0,
+        left: 0,
+        top: 0,
+        bottom: 0,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    childContainer: {
+        paddingLeft: 20,
+        paddingRight: 20
+    }
 });
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-let isbigStyle = true;
 
 class HomeScreen extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            array: [
-                {emoji: ":rage:", title: "Anger"},
-                {emoji: ":nerd_face:", title: "Cool"},
-                {emoji: ":astonished:", title: "Suprised"},
-                {emoji: ":sob:", title: "Sad"},
-                {emoji: ":grimacing:", title: "Happy"},
-                {emoji: ":weary:", title: "Tired"},
-                {emoji: ":disappointed:", title: "down"},
-                {emoji: ":sob:", title: "Sad"},
-                {emoji: ":grimacing:", title: "Happy"},
-                {emoji: ":weary:", title: "Tired"},
-                {emoji: ":disappointed:", title: "down"},
-                {emoji: ":disappointed:", title: "down"},
-                {emoji: ":rage:", title: "Anger"},
-                {emoji: ":nerd_face:", title: "Cool"},
-                {emoji: ":astonished:", title: "Suprised"},
-                {emoji: ":sob:", title: "Sad"},
-                {emoji: ":grimacing:", title: "Happy"},
-                {emoji: ":weary:", title: "Tired"},
-                {emoji: ":disappointed:", title: "down"},
-                {emoji: ":sob:", title: "Sad"},
-                {emoji: ":grimacing:", title: "Happy"},
-                {emoji: ":weary:", title: "Tired"},
-                {emoji: ":disappointed:", title: "down"},
-                {emoji: ":grimacing:", title: "Happy"},
-                {emoji: ":weary:", title: "Tired"},
-                {emoji: ":disappointed:", title: "down"},
-                {emoji: ":disappointed:", title: "down"},
-                {emoji: ":rage:", title: "Anger"},
-            ]
+            data: [],
+            loading: false
         }
         this.fetchEmojis = this.fetchEmojis.bind(this);
+        this.setLoading = this.setLoading.bind(this);
     }
 
     componentDidMount() {
         this.fetchEmojis()
     }
 
-    fetchEmojis() {
+    async fetchEmojis() {
+        this.setLoading(true);
+        try {
+            const emojis = await getEmojis();
+            this.setState({
+                data: emojis,
+                loading: false
+            })
+        } catch (error) {
+            this.setLoading(false)
+        }
 
+    }
+
+    setLoading(isLoadin) {
+        this.setState({
+            loading: isLoadin
+        })
     }
 
 
@@ -110,13 +113,10 @@ class HomeScreen extends Component {
 
     renderChildren() {
         const moodStyles = [styles.big, styles.medium, styles.small];
-        let count = 0;
-        return this.state.array.map((item, key) => {
-                const index = count % 3;
-                count++;
+        return this.state.data.map((item, key) => {
                 return <MoodItem
                     item={item}
-                    style={moodStyles[index]}
+                    style={moodStyles[item.type]}
                     key={key}/>
             }
         );
@@ -131,7 +131,12 @@ class HomeScreen extends Component {
                     onBackPress={() => {
                     }}
                 />
-                <View style={{paddingLeft: 20, paddingRight: 20}}>
+                {this.state.loading &&
+                <View style={styles.progressContainer}>
+                    <ActivityIndicator size={"large"} color={"#FFF"}/>
+
+                </View>}
+                <View style={styles.childContainer}>
                     <ScrollView>
                         <AutoResponsive {...this.getAutoResponsiveProps()}>
                             {this.renderChildren()}
