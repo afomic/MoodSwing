@@ -16,8 +16,8 @@ export const IntensitySlider = ({onMoodIntensityChange, currentIntensity, intens
             maximumValue={intensityList.length - 1}
             step={1}
             thumbStyle={styles.thumbStyle}
-            minimumTrackTintColor="#825eeb"
-            maximumTrackTintColor="#825eeb"
+            minimumTrackTintColor="#FFF"
+            maximumTrackTintColor="#FFF"
             onValueChange={onMoodIntensityChange}
         />
         <View style={styles.titleContainer}>
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     },
     valueContainer: {
         flexDirection: "row",
+        marginBottom:20
     },
     thumbStyle: {
         backgroundColor: "#FFF",

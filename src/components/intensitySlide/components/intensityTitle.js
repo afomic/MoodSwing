@@ -3,7 +3,7 @@ import {View, StyleSheet, Animated} from 'react-native';
 
 
 export const IntensityTitle = ({title, selected}) => {
-    const positionValue = new Animated.Value(-10);
+    const positionValue = new Animated.Value(0);
     if (selected) {
         Animated.parallel([
             Animated.timing(positionValue, {
@@ -15,7 +15,7 @@ export const IntensityTitle = ({title, selected}) => {
     } else {
         Animated.parallel([
             Animated.timing(positionValue, {
-                toValue: -20,
+                toValue: 0,
                 duration: 40,
                 useNativeDriver: true
             }),
@@ -24,7 +24,7 @@ export const IntensityTitle = ({title, selected}) => {
     return <View style={styles.container}>
         <Animated.Text style={{
             color: "#FFF",
-            textAlign:"center",
+            textAlign: "center",
             transform: [{translateY: positionValue}]
         }}>{title}</Animated.Text>
     </View>
@@ -32,12 +32,12 @@ export const IntensityTitle = ({title, selected}) => {
 const styles = StyleSheet.create({
     container: {
         justifyContent: "center",
-        alignItems:"center",
-        flex:1,
+        alignItems: "center",
+        flex: 1,
     },
     line: {
         width: 2,
-        height: 8,
+        height: 15,
         backgroundColor: "#7f868e"
     },
 })

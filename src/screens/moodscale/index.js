@@ -63,7 +63,7 @@ class MoodScaleScreen extends Component {
             this.setState({
                 moodIntensity: intensity
             })
-        }, 30)
+        }, 100)
 
 
     }
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         position: "absolute",
         justifyContent: "center",
-        top: Constants.statusBarHeight + 80,
+        top: Constants.statusBarHeight + 120,
         left: 0,
         right: 0,
     }
