@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
     }
 });
 
-export const MoodItem = ({item, style, key}) => (
-    <TouchableOpacity style={style} key={key}>
+export const MoodItem = ({item, style, key, onPress}) => (
+    <TouchableOpacity style={style} key={key} onPress={onPress}>
         <View style={styles.container}>
             <Emoji name={item.emoji} style={{fontSize: 20}}/>
             <Text style={styles.text}>{item.title}</Text>

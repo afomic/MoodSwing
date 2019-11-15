@@ -10,61 +10,10 @@ import AutoResponsive from "autoresponsive-react-native"
 import Toolbar from "../../components/toolbar/Toolbar";
 import {MoodItem} from "../../components/moodItem";
 import {getEmojis} from "../../service/api";
+import {getResponsiveWidth} from "../../utils/ResponsiveScale";
 
 
-let styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#825eeb',
-        flex: 1,
-    },
-    title: {
-        paddingTop: 20,
-        paddingBottom: 20,
-    },
-    titleText: {
-        color: '#d0bbab',
-        textAlign: 'center',
-        fontSize: 36,
-        fontWeight: 'bold',
-    },
-    text: {
-        textAlign: 'center',
-        fontSize: 12,
-        marginTop: 4,
-        color: '#FFF',
-    },
-    big: {
-        width: 90,
-        height: 90,
-        backgroundColor: 'rgba(255,255,255,0.1)',
-        borderRadius: 45,
-    },
-    medium: {
-        width: 80,
-        height: 80,
-        backgroundColor: 'rgba(255,255,255,0.1)',
-        borderRadius: 40,
-    },
-    small: {
-        width: 70,
-        height: 70,
-        backgroundColor: 'rgba(255,255,255,0.1)',
-        borderRadius: 35,
-    },
-    progressContainer: {
-        position: "absolute",
-        right: 0,
-        left: 0,
-        top: 0,
-        bottom: 0,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    childContainer: {
-        paddingLeft: 20,
-        paddingRight: 20
-    }
-});
+
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -77,6 +26,7 @@ class HomeScreen extends Component {
         }
         this.fetchEmojis = this.fetchEmojis.bind(this);
         this.setLoading = this.setLoading.bind(this);
+        this.handleMoodSelected = this.handleMoodSelected.bind(this);
     }
 
     componentDidMount() {
@@ -117,7 +67,9 @@ class HomeScreen extends Component {
                 return <MoodItem
                     item={item}
                     style={moodStyles[item.type]}
-                    key={key}/>
+                    key={key}
+                    onPress={() => this.handleMoodSelected(item)}
+                />
             }
         );
     }
@@ -128,6 +80,7 @@ class HomeScreen extends Component {
             <View style={styles.container}>
                 <Toolbar
                     title={"How are you feeling?"}
+                    iconTintColor={"#FFF"}
                     onBackPress={() => {
                     }}
                 />
@@ -147,6 +100,63 @@ class HomeScreen extends Component {
             </View>
         );
     }
+
+    handleMoodSelected(mood) {
+        this.props.navigation.navigate("MoodScale", {mood: mood})
+    }
 }
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#825eeb',
+        flex: 1,
+    },
+    title: {
+        paddingTop: 20,
+        paddingBottom: 20,
+    },
+    titleText: {
+        color: '#d0bbab',
+        textAlign: 'center',
+        fontSize: 36,
+        fontWeight: 'bold',
+    },
+    text: {
+        textAlign: 'center',
+        fontSize: 12,
+        marginTop: 4,
+        color: '#FFF',
+    },
+    big: {
+        width: getResponsiveWidth(90),
+        height: getResponsiveWidth(90),
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        borderRadius: getResponsiveWidth(45),
+    },
+    medium: {
+        width: getResponsiveWidth(80),
+        height: getResponsiveWidth(80),
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        borderRadius: getResponsiveWidth(40),
+    },
+    small: {
+        width: getResponsiveWidth(70),
+        height: getResponsiveWidth(70),
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        borderRadius: getResponsiveWidth(35),
+    },
+    progressContainer: {
+        position: "absolute",
+        right: 0,
+        left: 0,
+        top: 0,
+        bottom: 0,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    childContainer: {
+        paddingLeft: 20,
+        paddingRight: 20
+    }
+});
 
 export default HomeScreen;
