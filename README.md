@@ -1,12 +1,12 @@
 # MoodSwing
 
-# installation guide
+## installation guide
 
-# install dependency
+## install dependency
 ```bash
 npm install
 ```
-# run application
+## run application
 ```bash
 expo start
 ```
